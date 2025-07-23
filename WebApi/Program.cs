@@ -14,9 +14,11 @@ namespace web_api
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddJwt(builder.Configuration);
             builder.Services.AddInfrastructure(builder.Configuration);
 
             var app = builder.Build();
+
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
@@ -25,11 +27,8 @@ namespace web_api
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
             app.MapControllers();
-
             app.Run();
         }
     }

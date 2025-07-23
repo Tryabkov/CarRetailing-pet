@@ -4,44 +4,23 @@ using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Abstractions;
 using Application.Interfaces;
 using Core.Entities;
 using Core.Interfaces;
 
 namespace Application
 {
-    public class CarService(ICarRepository repository) : ICarService
+    public class CarService : CrudService<CarEntity>, ICarService
     {
-        public Task CreateAsync(CarEntity car, CancellationToken ct = default)
+        IRepository<CarEntity> repository;
+        public CarService(IRepository<CarEntity> repository) : base(repository)
         {
-            return repository.CreateAsync(car, ct);
+            this.repository = repository;
         }
-
-        public async Task<IEnumerable<CarEntity>?> GetAllAsync(CancellationToken ct)
+        public Task<ICollection<CarEntity>?> GetByFiltersAsync()
         {
-            return await repository.GetAllAsync(ct);
-        }
-
-        public async Task<CarEntity?> GetByIdAsync(uint id, CancellationToken ct)
-        {
-            var car = await repository.GetByIdAsync(id, ct);
-            return car;
-        }
-
-        public Task UpdateAsync(CarEntity car, CancellationToken ct)
-        {
-            return repository.UpdateAsync(car, ct);
-        }
-
-        public async Task DeleteAsync(uint id, CancellationToken ct = default)
-        {
-            var car = await repository.GetByIdAsync(id, ct);
-            if (car is null)
-            {
-                throw new Exception("Car not found");
-            }
-
-            await repository.DeleteAsync(car, ct);
+            throw new NotImplementedException();
         }
     }
 }
