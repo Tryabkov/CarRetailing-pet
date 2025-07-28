@@ -16,5 +16,23 @@ namespace Infrastructure.Repositories
     public class CarRepository : GenericRepository<CarEntity>
     {
         public CarRepository(AppDbContext context) : base(context) { }
+
+        public override async Task<ICollection<CarEntity>> GetAllAsync(CancellationToken ct)
+        {
+            return await _dbSet
+                .Include(c => c.User)
+                .OrderBy(с => с.Id)
+                .ToListAsync(ct);
+        }
+
+        public override async Task<CarEntity?> GetByIdAsync(uint id, CancellationToken ct)
+        {
+            return await _dbSet
+                .Include(c => c.User)
+                .FirstOrDefaultAsync(c => c.Id == id, ct);
+                
+        }
+
+
     }
 }

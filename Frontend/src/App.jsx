@@ -1,26 +1,43 @@
 import { useState } from 'react'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import HomePage from './pages/HomePage.jsx'
+import LoginPage from './pages/LoginPage.jsx';
+import { useNavigate } from 'react-router-dom';
 
-function App() {
-  const [count, setCount] = useState(0)
+function LoginWrapper() {
+  const navigate = useNavigate();
+  
+  const handleBack = () => {
+    if (window.history.length > 1){
+      return navigate(-1)
+    }
+    else{
+      return navigate('/')
+    }
+  }
+
+    const handleRegister = () => {
+    navigate('/register')
+  }
+
 
   return (
-    <>
-    <div>
-      <p>Enter</p>
-    </div>
+    <LoginPage onBack={handleBack} onRegister={handleRegister} />
+  );
+}
 
-    <div>
-      <ul>
-        <li>
-          <button onClick={() => setCount((count) => count + 1)}>
-            BUTTON
-            </button> 
-        </li>
-      </ul>
-    </div>
-    </>
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="" element={<HomePage/>}/>
+        <Route path="login" element={<LoginWrapper/>} />
+        <Route path="register" element={<LoginWrapper/>} />
+      </Routes>
+    </Router>
   )
 }
 
 export default App
+
+

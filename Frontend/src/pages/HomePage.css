@@ -1,0 +1,13 @@
+.header{
+  /* background-color: #608ebd; */
+  padding: 20px;
+  text-align: right;
+}
+.login-btn{
+  background-color: #e2e2e2;
+  color: rgb(0, 0, 0);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

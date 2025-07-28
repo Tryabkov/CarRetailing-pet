@@ -9,6 +9,8 @@ namespace Application.Interfaces
 {
     public interface ICarService : ICrudService<CarEntity>
     {
-        Task<ICollection<CarEntity>?> GetByFiltersAsync();
+        Task<ICollection<CarEntity>?> GetByFiltersAsync(CancellationToken ct);
+        Task<ICollection<ReturnCarDto>?> GetAllPublicCarsAsync(CancellationToken ct);
+        Task<ReturnCarDto?> GetPublicCarAsync(uint id, CancellationToken ct);
     }
 }
