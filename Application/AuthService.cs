@@ -24,17 +24,24 @@ namespace Application
             {
                 return new LoginResult(LoginResultType.UserNotFound); 
             }
+            var user = users.First();
 
-            string passHash = users.First().PasswordHash;
+            string passHash = user.PasswordHash;
             var result = hasher.VerifyHashedPassword(null!, passHash, password);
             if (result == PasswordVerificationResult.Failed)
             {
                 return new LoginResult(LoginResultType.WrongPassword);
             }
 
+            var claims = new[]
+            {
+                new Claim(type: JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(type: ClaimTypes.Name, user.Name),
+                //new Claim(type: ClaimTypes.Role, "Authorized")
+            };
+
             var jwtSettings = config.GetSection("Jwt");
             byte[] key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
-            var claims = Array.Empty<Claim>();
 
             var token = new JwtSecurityToken(
                 issuer: jwtSettings["Issuer"],
@@ -44,14 +51,15 @@ namespace Application
                 signingCredentials: new SigningCredentials
                 (
                     new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256)
-                );
+                    SecurityAlgorithms.HmacSha256
+                ));
 
+            var handler = new JwtSecurityTokenHandler();
 
-            return new LoginResult(LoginResultType.Success, token, token.ValidTo);
+            return new LoginResult(LoginResultType.Success, handler.WriteToken(token), token.ValidTo);
         }
 
-        public async Task<bool> SigninAsync(string username, string email, string password, CancellationToken ct)
+        public async Task<bool> SignupAsync(string username, string email, string password, CancellationToken ct)
         {
             var emailUsers = await userService.GetByEmailAsync(email, ct);
             if (emailUsers.Count != 0)

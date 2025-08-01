@@ -20,9 +20,9 @@ namespace Core.Entities
         public UserEntity User { get; set; }
 
         protected CarEntity() { }
-        public CarEntity(CreateCarDto car)
+        public CarEntity(uint userId, CreateCarDto car)
         {
-            UserId = car.userId;
+            UserId = userId;
             Mark = car.mark;
             Model = car.model;
             Description = car.description;

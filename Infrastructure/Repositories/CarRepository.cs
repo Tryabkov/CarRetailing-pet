@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,10 +30,7 @@ namespace Infrastructure.Repositories
         {
             return await _dbSet
                 .Include(c => c.User)
-                .FirstOrDefaultAsync(c => c.Id == id, ct);
-                
+                .FirstOrDefaultAsync(c => c.Id == id, ct);    
         }
-
-
     }
 }

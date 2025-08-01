@@ -11,16 +11,23 @@ namespace web_api
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            var urls = builder.Configuration["Urls"];
+            if (!string.IsNullOrEmpty(urls))
+            {
+                builder.WebHost.UseUrls(urls);
+            }
+
             builder.Services.AddControllers();
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen();
             builder.Services.AddCors(options =>
             {
-                options.AddDefaultPolicy(policy =>
+                options.AddPolicy("AllowFrontend", policy =>
                 {
-                    policy.WithOrigins("https://localhost", "http://localhost:5173");
-                    policy.AllowAnyHeader();
-                    policy.AllowAnyMethod();
+                    policy.WithOrigins("https://192.168.0.105:5173")
+                       .AllowAnyHeader()
+                       .AllowAnyMethod()
+                       .AllowCredentials();
                 });
             });
 
@@ -36,8 +43,9 @@ namespace web_api
                 app.UseSwaggerUI();
             }
 
-            app.UseCors();
+            app.UseCors("AllowFrontend");
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
             app.Run();

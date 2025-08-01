@@ -7,6 +7,7 @@
     <UserSecretsId>b66b0f3f-5f6e-4078-ba2d-d37d2c436279</UserSecretsId>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <TypeScriptJSXEmit>react</TypeScriptJSXEmit>
   </PropertyGroup>
 
   <ItemGroup>

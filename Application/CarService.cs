@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace Application
             return allCars!
                 .Select(c => new ReturnCarDto
                 (
+                    c.Id,
                     c.Mark,
                     c.Price,
                     c.Model,
@@ -42,12 +44,28 @@ namespace Application
         {
             var car = await repository.GetByIdAsync(id, ct);
             if(car is null) { return null; }
-            return new ReturnCarDto(car.Mark, car.Price, car.Model, car.Description, new ReturnUserDto(car.User.Name, car.User.Bio));
+            return new ReturnCarDto(car.Id, car.Mark, car.Price, car.Model, car.Description, new ReturnUserDto(car.User.Name, car.User.Bio));
         }
 
-        public Task<ICollection<CarEntity>?> GetByFiltersAsync(CancellationToken ct)
+        public async Task<ICollection<ReturnCarDto>?> GetByFiltersAsync(Expression<Func<CarEntity, bool>> predicate, CancellationToken ct)
         {
-            throw new NotImplementedException();
+            var cars = await repository.FindAsync(predicate, ct);
+
+            return cars
+                .Select(c => new ReturnCarDto
+                (
+                    c.Id,
+                    c.Mark, 
+                    c.Price,
+                    c.Model,
+                    c.Description,
+                    new ReturnUserDto
+                    (
+                        c.User.Name,
+                        c.User.Bio
+                    )
+                ))
+                .ToList();
         }
     }
 }

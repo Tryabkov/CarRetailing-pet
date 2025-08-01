@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure
@@ -43,17 +44,26 @@ namespace Infrastructure
                 o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(o =>
+            .AddJwtBearer(options =>
             {
-                o.RequireHttpsMetadata = true;
-                o.SaveToken = true;
-                o.TokenValidationParameters = new TokenValidationParameters
+                options.RequireHttpsMetadata = true;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer =           false,
-                    ValidateAudience =         false,
+                    ValidateIssuer           = false,
+                    ValidateAudience         = false,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey =         new SymmetricSecurityKey(key),
-                    ClockSkew =                TimeSpan.Zero
+                    IssuerSigningKey         = new SymmetricSecurityKey(key),
+                    ClockSkew                = TimeSpan.Zero
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        context.Token = context.Request.Cookies["token"];
+                        return Task.CompletedTask;
+                    }
                 };
             });
             services.AddAuthorization();
