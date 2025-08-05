@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Core.Interfaces;
+﻿using Core.Interfaces;
 
 namespace Core.Entities
 {
@@ -23,10 +18,10 @@ namespace Core.Entities
         public CarEntity(uint userId, CreateCarDto car)
         {
             UserId = userId;
-            Mark = car.mark;
-            Model = car.model;
-            Description = car.description;
-            Price = car.price;
+            Mark = car.Mark;
+            Model = car.Model;
+            Description = car.Description;
+            Price = car.Price;
         }
     }
 }

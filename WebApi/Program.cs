@@ -1,9 +1,6 @@
-
-using System.Xml.Linq;
 using Infrastructure;
-using Microsoft.OpenApi.Models;
 
-namespace web_api
+namespace WebApi
 {
     public class Program
     {
@@ -24,7 +21,10 @@ namespace web_api
             {
                 options.AddPolicy("AllowFrontend", policy =>
                 {
-                    policy.WithOrigins("https://192.168.0.105:5173")
+                    policy.WithOrigins(
+                            "https://192.168.0.105:5173",
+                            "https://localhost:5173",
+                            "https://77.73.132.130:5173")
                        .AllowAnyHeader()
                        .AllowAnyMethod()
                        .AllowCredentials();

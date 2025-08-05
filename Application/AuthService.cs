@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Application.Interfaces;
 using Core.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -15,7 +11,7 @@ namespace Application
 {
     public class AuthService(IConfiguration config, IUserService userService) : IAuthService
     {
-        private readonly PasswordHasher<UserEntity> hasher = new();
+        private readonly PasswordHasher<UserEntity> _hasher = new();
 
         public async Task<LoginResult> LoginAsync(string email, string password, CancellationToken ct)
         {
@@ -27,7 +23,7 @@ namespace Application
             var user = users.First();
 
             string passHash = user.PasswordHash;
-            var result = hasher.VerifyHashedPassword(null!, passHash, password);
+            var result = _hasher.VerifyHashedPassword(null!, passHash, password);
             if (result == PasswordVerificationResult.Failed)
             {
                 return new LoginResult(LoginResultType.WrongPassword);
@@ -71,7 +67,7 @@ namespace Application
             {
                 Name = username,
                 Email = email,
-                PasswordHash = hasher.HashPassword(null!, password),
+                PasswordHash = _hasher.HashPassword(null!, password),
                 IsEmailVerified = false
             }, ct);
 
