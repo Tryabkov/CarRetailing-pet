@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  webapi:
+    build:
+      context: .
+      dockerfile: WebApi/Dockerfile
+    restart: on-failure
+    ports:
+    - "5026:5026"
+    - "7138:7138"
+    - "5001:5001"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ALLOWEDHOSTS: "*"
+      ASPNETCORE_URLS: "${URLS}"
+      Jwt__Key: ${JWT_KEY}
+      Jwt__Issuer: ${JWT_ISSUER}
+      Jwt__Audience: ${JWT_AUDIENCE}
+      Jwt__ExpiresInMinutes: ${JWT_EXPIRES}
+      Urls: ${URLS}
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
+      ASPNETCORE_Kestrel__Certificates__Default__Password: "${PFX_PASSWORD}"
+      ConnectionStrings__DefaultConnection: "${DEFAULT_CONNECTION}"
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    volumes:
+      - ./aspnetapp.pfx:/https/aspnetapp.pfx:ro
+    networks:
+      - carnet
+
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    working_dir: /app
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./Frontend:/app
+      - /app/node_modules
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=development
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    networks:
+      - carnet
+    depends_on:
+      - webapi  
+
+  postgres:
+    image: postgres:16
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      ConnectionStrings__DefaultConnection: "${DEFAULT_CONNECTION}"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - carnet
+
+volumes:
+  pgdata:
+
+networks:
+  carnet:
+    driver: bridge

@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
-using Core.Entities;
-using Core.Interfaces;
+﻿using Core.Entities;
 using Infrastructure.Abstractions;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +12,7 @@ namespace Infrastructure.Repositories
 
         public override async Task<ICollection<CarEntity>> GetAllAsync(CancellationToken ct)
         {
-            return await _dbSet
+            return await DbSet
                 .Include(c => c.User)
                 .OrderBy(с => с.Id)
                 .ToListAsync(ct);
@@ -28,7 +20,7 @@ namespace Infrastructure.Repositories
 
         public override async Task<CarEntity?> GetByIdAsync(uint id, CancellationToken ct)
         {
-            return await _dbSet
+            return await DbSet
                 .Include(c => c.User)
                 .FirstOrDefaultAsync(c => c.Id == id, ct);    
         }

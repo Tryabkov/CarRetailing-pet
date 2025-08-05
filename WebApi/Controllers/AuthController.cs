@@ -1,12 +1,7 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace WebApi.Controllers
 {
@@ -16,18 +11,18 @@ namespace WebApi.Controllers
     {
         [Authorize]
         [HttpGet("status")]
-        public async Task<IActionResult> GetStatus() =>
-        Ok(new
-        {
-            isLogged = true,
-            username = User.Identity?.Name
-        });
+        public Task<IActionResult> GetStatus() =>
+            Task.FromResult<IActionResult>(Ok(new
+            {
+                isLogged = true,
+                username = User.Identity?.Name
+            }));
             
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto, CancellationToken ct)
         {
-            var loginResult = await authService.LoginAsync(loginDto.email, loginDto.password, ct);
+            var loginResult = await authService.LoginAsync(loginDto.Email, loginDto.Password, ct);
 
             switch (loginResult.Type)
             {
@@ -45,7 +40,7 @@ namespace WebApi.Controllers
                     return Ok();
                 }
 
-                case LoginResultType.UserNotFound: return BadRequest();
+                case LoginResultType.UserNotFound:
                 case LoginResultType.WrongPassword: return BadRequest();
                 default: return NotFound();
             }
@@ -53,15 +48,15 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("signup")]
-        public async Task<IActionResult> Signup([FromBody] SignupDto SignupDto, CancellationToken ct)
+        public async Task<IActionResult> Signup([FromBody] SignupDto signupDto, CancellationToken ct)
         {
-            bool isSuccess = await authService.SignupAsync(SignupDto.password, SignupDto.email, SignupDto.password, ct);
+            bool isSuccess = await authService.SignupAsync(signupDto.Password, signupDto.Email, signupDto.Password, ct);
             if (!isSuccess)
             {
                 return BadRequest("User already exists");
             }
 
-            return Ok(SignupDto.username);
+            return Ok(signupDto.Username);
         }
 
         [HttpPost("logout")]

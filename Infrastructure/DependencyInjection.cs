@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using Application;
 using Application.Interfaces;
 using Core.Entities;
@@ -14,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure
@@ -37,8 +32,8 @@ namespace Infrastructure
 
         public static IServiceCollection AddJwt(this IServiceCollection services, IConfiguration configuration)
         {
-            var JwtSettings = configuration.GetSection("Jwt");
-            byte[] key = Encoding.UTF8.GetBytes(JwtSettings["Key"]!);
+            var jwtSettings = configuration.GetSection("Jwt");
+            byte[] key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
             services.AddAuthentication(o =>
             {
                 o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
