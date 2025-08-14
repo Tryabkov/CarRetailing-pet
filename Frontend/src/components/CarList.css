@@ -1,4 +1,22 @@
 .car-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Адаптивный дизайн */
+@media (max-width: 768px) {
+  .car-list {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .car-list {
+    padding: 12px;
+    gap: 12px;
+  }
 }

@@ -14,6 +14,7 @@ namespace WebApi
                 builder.WebHost.UseUrls(urls);
             }
 
+            builder.Services.AddAutoMapper(typeof(Application.Mappings.CarProfile));
             builder.Services.AddControllers();
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen();
@@ -23,6 +24,7 @@ namespace WebApi
                 {
                     policy.WithOrigins(
                             "https://192.168.0.105:5173",
+                            "https://192.168.43.224:5173",
                             "https://localhost:5173",
                             "https://77.73.132.130:5173")
                        .AllowAnyHeader()

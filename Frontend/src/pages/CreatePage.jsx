@@ -1,87 +1,99 @@
 import './CreatePage.css';
-import { use, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
-import { AuthProvider, AuthContext } from '../auth/AuthContext';
-
-const API_URL = import.meta.env.VITE_API_URL;
+import ThemeToggle from '../components/ThemeToggle';
+import { useTheme } from '../context/ThemeContext';
+import { createCar } from '../services/CarService';
 
 export default function CreatePage() {
   const navigate = useNavigate();
+  const { theme } = useTheme();
+  
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    // setError('')
-
-    axios.post(`${API_URL}/api/cars`, { mark, price, model, description}, { withCredentials: true })
-    navigate('/')
+    e.preventDefault();
+    await createCar({ mark, price, model, description });
+    navigate('/');
   }
 
-  const [mark, setMark] = useState('')
-  const [model, setModel] = useState('')
-  const [description, setDescription] = useState('')
-  const [price, setPrice] = useState('')
-  // const [error, setError] = useState('')
+  const [mark, setMark] = useState('');
+  const [model, setModel] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
 
   return (
-    <div className="register-page">
-      <div className="register-card">
-        <h2 className="register-title">Create Car</h2>
-        <form className="register-form" onSubmit={handleSubmit}>
-          {/* {error && <div className="error-box">{error}</div>} */}
+    <div className="create-page">
+      <nav className="nav-header">
+        <a href="/" className="nav-logo">CarMarket</a>
+        <div className="nav-links">
+          <a href="/" className="nav-link">Home</a>
+          <a href="/create" className="nav-link active">Add Listing</a>
+          <a href="/profile" className="nav-link">Profile</a>
+          <ThemeToggle />
+        </div>
+      </nav>
 
-          <div className="input-group">
-            <label htmlFor="reg-username">Car mark</label>
-            <input
-              id="reg-username"
-              type="text"
-              value={mark}
-              onChange={e => setMark(e.target.value)}
-              placeholder="Enter mark"
-              required
-            />
-          </div>
+      <div className="create-container">
+        <div className="create-form">
+          <h2 className="create-title">Create Listing</h2>
+          <form className="form" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="car-mark" className="form-label">Car Brand</label>
+              <input
+                id="car-mark"
+                type="text"
+                value={mark}
+                onChange={e => setMark(e.target.value)}
+                placeholder="Enter brand"
+                className="form-input"
+                required
+              />
+            </div>
 
-          <div className="input-group">
-            <label htmlFor="reg-email">Car model</label>
-            <input
-              id="reg-email"
-              type="text"
-              value={model}
-              onChange={e => setModel(e.target.value)}
-              placeholder="Enter model"
-              required
-            />
-          </div>
+            <div className="form-group">
+              <label htmlFor="car-model" className="form-label">Car Model</label>
+              <input
+                id="car-model"
+                type="text"
+                value={model}
+                onChange={e => setModel(e.target.value)}
+                placeholder="Enter model"
+                className="form-input"
+                required
+              />
+            </div>
 
+            <div className="form-group">
+              <label htmlFor="car-description" className="form-label">Description</label>
+              <textarea 
+                className="form-input"
+                id="car-description"
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                placeholder="Enter description"
+                rows="4"
+                required
+              />
+            </div>
 
-          <div className="input-group">
-            <label htmlFor="reg-confirm">Description</label>
-            <textarea className='textarea-description'
-              id="reg-confirm"
-              type="password"
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-              placeholder="Enter description"
-              required
-            />
-          </div>
+            <div className="form-group">
+              <label htmlFor="car-price" className="form-label">Price</label>
+              <input
+                id="car-price"
+                type="number"
+                value={price}
+                onChange={e => setPrice(e.target.value)}
+                placeholder="Enter price"
+                className="form-input"
+                required
+              />
+            </div>
 
-          <div className="input-group">
-            <label htmlFor="reg-password">Price</label>
-            <input
-              id="reg-password"
-              type="number"
-              value={price}
-              onChange={e => setPrice(e.target.value)}
-              placeholder="Enter price"
-              required
-            />
-          </div>
-
-          <button type="submit" className="btn btn-primary">Create</button>
-          {/* <button type="button" className="btn btn-secondary" onClick={onBack}>Back</button>
-          <button type="button" className="btn btn-redirect-login" onClick={onLogin}>Register</button> */}
-        </form>
+            <button type="submit" className="create-btn">Create Listing</button>
+            <button type="button" className="back-btn" onClick={() => navigate('/')}>
+              Back
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

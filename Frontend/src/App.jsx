@@ -7,7 +7,9 @@ import LoginPage from './pages/LoginPage.jsx';
 import { useNavigate } from 'react-router-dom';
 import RegisterPage from './pages/RegisterPage.jsx';
 import { AuthProvider } from './auth/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import CreatePage from './pages/CreatePage.jsx';
+import ProfilePage from './pages/ProfilePage.jsx';
 
 function LoginWrapper() {
   const navigate = useNavigate();
@@ -52,16 +54,19 @@ function RegisterWrapper() {
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="" element={<HomePage/>}/>
-          <Route path="login" element={<LoginWrapper/>} />
-          <Route path="register" element={<RegisterWrapper/>} />
-          <Route path="create" element={<CreatePage/>} />
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route path="" element={<HomePage/>}/>
+            <Route path="login" element={<LoginWrapper/>} />
+            <Route path="register" element={<RegisterWrapper/>} />
+            <Route path="create" element={<CreatePage/>} />
+            <Route path="profile" element={<ProfilePage/>} />
+          </Routes>
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
   )
 }
 

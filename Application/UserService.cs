@@ -1,20 +1,27 @@
 ﻿using Application.Abstractions;
 using Application.Interfaces;
+using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Application
 {
-    public class UserService : CrudService<UserEntity>, IUserService
+    public class UserService : CrudService<UserEntity, ReturnUserDto>, IUserService
     {
-        IRepository<UserEntity> _repository;
-        public UserService(IRepository<UserEntity> repository) : base(repository) 
-        {
-            this._repository = repository;
-        }
+        public UserService(IRepository<UserEntity> repository, IMapper mapper) 
+            : base(repository, mapper) { }
 
-        public Task<ICollection<UserEntity>> GetByEmailAsync(string email, CancellationToken ct) => _repository.FindAsync(u => u.Email == email, ct);
-
-        public Task<ICollection<UserEntity>> GetByNameAsync(string name, CancellationToken ct) => _repository.FindAsync(u => u.Name == name, ct);
+        public Task<List<UserEntity>> GetByEmailAsync(string email, CancellationToken ct) => 
+            _repository
+                .Query(ct)
+                .Where(u => u.Email == email)
+                .ToListAsync(ct);
+        public Task<List<UserEntity>> GetByNameAsync(string name, CancellationToken ct) => 
+            _repository
+                .Query(ct)
+                .Where(u => u.Name == name)
+                .ToListAsync(ct);
     }
 }

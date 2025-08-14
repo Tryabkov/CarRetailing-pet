@@ -8,6 +8,8 @@ namespace Core.Entities
         public string Mark { get; set; } = "";
         public string Model { get; set; } = "";
         public string Description { get; set; } = "";
+        public int Mileage { get; set; }
+        public short Year { get; set; }
         public decimal Price { get; set; }
         public string ImageUrl { get; set; } = "";
 
@@ -20,8 +22,13 @@ namespace Core.Entities
             UserId = userId;
             Mark = car.Mark;
             Model = car.Model;
+            Mileage = car.Mileage;
+            Year = car.Year;
             Description = car.Description;
             Price = car.Price;
         }
     }
+    
+    public record CreateCarDto(string Mark, string Model, decimal Price, short Year, int Mileage, string Description = null!);
+    public record ReturnCarDto(uint Id, string Mark, string Model, decimal Price, short Year, int Mileage, string Description = null!, ReturnUserDto User = null!);
 }

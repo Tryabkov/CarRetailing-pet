@@ -31,9 +31,9 @@ namespace Application
 
             var claims = new[]
             {
-                new Claim(type: JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(type: ClaimTypes.Name, user.Name),
-                //new Claim(type: ClaimTypes.Role, "Authorized")
+                new Claim (type: JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim (type: ClaimTypes.Name, user.Name),
+                // new Claim (type: ClaimTypes.Role, "Authorized")
             };
 
             var jwtSettings = config.GetSection("Jwt");
@@ -62,15 +62,15 @@ namespace Application
             {
                 return false;
             }
-
-            await userService.CreateAsync(new UserEntity()
-            {
-                Name = username,
-                Email = email,
-                PasswordHash = _hasher.HashPassword(null!, password),
-                IsEmailVerified = false
-            }, ct);
-
+            
+            await userService.CreateAsync(new UserEntity(
+                new CreateUserDto
+                (
+                    Name: username,
+                    Email: email,
+                    PhoneNumber: email,
+                    PasswordHash: _hasher.HashPassword(null, password)
+                )), ct);
             return true;
         }
 

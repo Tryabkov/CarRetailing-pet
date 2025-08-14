@@ -11,7 +11,7 @@ services:
     - "7138:7138"
     - "5001:5001"
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_ALLOWEDHOSTS: "*"
       ASPNETCORE_URLS: "${URLS}"
       Jwt__Key: ${JWT_KEY}
@@ -44,7 +44,7 @@ services:
     env_file:
       - .env
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
     dns:
       - 8.8.8.8
       - 8.8.4.4
@@ -69,6 +69,17 @@ services:
       - "5432:5432"
     networks:
       - carnet
+    
+#  nginx:
+#    image: nginx:latest
+#    volumes:
+#      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+#    ports:
+#      - "80:80"
+#      
+#    depends_on:
+#      - frontend
+#      - webapi
 
 volumes:
   pgdata:

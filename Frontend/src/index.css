@@ -1,0 +1,500 @@
+/* Глобальные CSS переменные для тем */
+:root {
+  /* Основные цвета */
+  --primary: #3b82f6;
+  --primaryHover: #2563eb;
+  --secondary: #64748b;
+  --accent: #f59e0b;
+  
+  /* Фоны */
+  --background: #ffffff;
+  --surface: #f8fafc;
+  --surfaceHover: #f1f5f9;
+  --card: #ffffff;
+  --cardHover: #f8fafc;
+  
+  /* Границы */
+  --border: #e2e8f0;
+  --borderHover: #cbd5e1;
+  --borderFocus: #3b82f6;
+  
+  /* Текст */
+  --textPrimary: #1e293b;
+  --textSecondary: #64748b;
+  --textMuted: #94a3b8;
+  --textInverse: #ffffff;
+  
+  /* Статусы */
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #f59e0b;
+  --info: #3b82f6;
+  
+  /* Тени */
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadowHover: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadowLarge: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  /* Градиенты */
+  --gradientPrimary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradientSecondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  
+  /* Прозрачность */
+  --overlay: rgba(0, 0, 0, 0.5);
+  --overlayLight: rgba(0, 0, 0, 0.1);
+}
+
+/* Глобальные стили */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  background-color: var(--background);
+  color: var(--textPrimary);
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Плавные переходы для всех элементов */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Стили для скроллбара */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--borderHover);
+}
+
+/* Стили для выделения текста */
+::selection {
+  background-color: var(--primary);
+  color: var(--textInverse);
+}
+
+/* Стили для фокуса */
+:focus {
+  outline: 2px solid var(--borderFocus);
+  outline-offset: 2px;
+}
+
+/* Утилитарные классы */
+.text-primary { color: var(--textPrimary); }
+.text-secondary { color: var(--textSecondary); }
+.text-muted { color: var(--textMuted); }
+.text-inverse { color: var(--textInverse); }
+
+.bg-primary { background-color: var(--primary); }
+.bg-surface { background-color: var(--surface); }
+.bg-card { background-color: var(--card); }
+
+.border { border: 1px solid var(--border); }
+.border-hover { border-color: var(--borderHover); }
+
+.shadow { box-shadow: var(--shadow); }
+.shadow-hover { box-shadow: var(--shadowHover); }
+.shadow-large { box-shadow: var(--shadowLarge); }
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+.scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--textInverse);
+  border-color: var(--primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--primaryHover);
+  border-color: var(--primaryHover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadowHover);
+}
+
+.btn-secondary {
+  background-color: var(--surface);
+  color: var(--textPrimary);
+  border-color: var(--border);
+}
+
+.btn-secondary:hover {
+  background-color: var(--surfaceHover);
+  border-color: var(--borderHover);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-outline:hover {
+  background-color: var(--primary);
+  color: var(--textInverse);
+}
+
+/* Cards */
+.card {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--borderHover);
+  box-shadow: var(--shadowHover);
+  transform: translateY(-2px);
+}
+
+/* Forms */
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  background-color: var(--surface);
+  color: var(--textPrimary);
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--borderFocus);
+  background-color: var(--card);
+  box-shadow: 0 0 0 3px var(--overlayLight);
+}
+
+.form-input::placeholder {
+  color: var(--textMuted);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--textPrimary);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.125rem; }
+h6 { font-size: 1rem; }
+
+/* Links */
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primaryHover);
+  text-decoration: underline;
+}
+
+/* Lists */
+ul, ol {
+  color: var(--textPrimary);
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--textPrimary);
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  background-color: var(--surface);
+  font-weight: 600;
+}
+
+/* Стили для кода */
+code {
+  background-color: var(--surface);
+  color: var(--textPrimary);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.875em;
+}
+
+pre {
+  background-color: var(--surface);
+  color: var(--textPrimary);
+  padding: 16px;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+}
+
+/* Стили для блоков кода */
+pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* Стили для цитат */
+blockquote {
+  border-left: 4px solid var(--primary);
+  padding-left: 16px;
+  margin: 16px 0;
+  color: var(--textSecondary);
+  font-style: italic;
+}
+
+/* Стили для горизонтальной линии */
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 24px 0;
+}
+
+/* Стили для изображений */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+/* Стили для видео */
+video {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+/* Стили для iframe */
+iframe {
+  border: none;
+  border-radius: 6px;
+}
+
+/* Стили для модальных окон */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var(--card);
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadowLarge);
+}
+
+/* Стили для уведомлений */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  color: var(--textInverse);
+  font-weight: 600;
+  z-index: 1001;
+  animation: slideIn 0.3s ease-out;
+}
+
+.notification.success {
+  background-color: var(--success);
+}
+
+.notification.error {
+  background-color: var(--error);
+}
+
+.notification.warning {
+  background-color: var(--warning);
+}
+
+.notification.info {
+  background-color: var(--info);
+}
+
+/* Стили для загрузки */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: var(--textSecondary);
+}
+
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border);
+  border-top: 2px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Стили для пустого состояния */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--textSecondary);
+}
+
+.empty-state-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--textPrimary);
+}
+
+.empty-state-description {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+  .card {
+    padding: 12px;
+  }
+  
+  .btn {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+  
+  .form-input {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+  
+  h1 { font-size: 1.75rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  h4 { font-size: 1.125rem; }
+  h5 { font-size: 1rem; }
+  h6 { font-size: 0.875rem; }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 10px;
+  }
+  
+  .btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .form-input {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}

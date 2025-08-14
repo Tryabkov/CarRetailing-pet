@@ -2,9 +2,9 @@
 
 namespace Application.Interfaces
 {
-    public interface IUserService : ICrudService<UserEntity>
+    public interface IUserService : ICrudService<UserEntity, ReturnUserDto>
     {
-        Task<ICollection<UserEntity>> GetByNameAsync(string name, CancellationToken ct);
-        Task<ICollection<UserEntity>> GetByEmailAsync(string email, CancellationToken ct);
+        Task<List<UserEntity>> GetByNameAsync(string name, CancellationToken ct);
+        Task<List<UserEntity>> GetByEmailAsync(string email, CancellationToken ct);
     }
 }

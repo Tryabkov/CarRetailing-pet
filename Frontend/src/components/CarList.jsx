@@ -1,12 +1,13 @@
-import React from "react";
-import CarCard from "./CarCard.jsx";
+import React from 'react';
+import CarCard from './CarCard';
 import './CarList.css';
 
-export const CarList = ({ cars }) => (
+export default function CarList({ cars, showStatus = true }) {
+  return (
     <div className="car-list">
-        {cars.map(car => (
-            <CarCard key={car.id} car={car}/>
-        ))}
+      {cars.map((car) => (
+        <CarCard key={car.id} car={car} showStatus={showStatus} />
+      ))}
     </div>
-);
-export default CarList;
+  );
+}

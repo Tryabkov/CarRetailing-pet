@@ -1,55 +1,227 @@
 
 .car-card {
-  width: 300px;
-  background-color: #fff;
+  background-color: var(--card);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  margin: 16px;
-  font-family: sans-serif;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.car-card:hover {
+  border-color: var(--borderHover);
+  box-shadow: var(--shadowHover);
+  transform: translateY(-4px);
+}
+
+/* Car Image Container */
+.car-image-container {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
 }
 
 .car-image {
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
-.car-info {
-  padding: 16px;
+.car-card:hover .car-image {
+  transform: scale(1.05);
 }
 
-.car-model {
-  font-size: 20px;
+/* Status Badge */
+.car-status {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
   font-weight: 600;
-  margin-bottom: 8px;
+  color: var(--textInverse);
+  backdrop-filter: blur(4px);
+}
+
+.car-status.success {
+  background-color: var(--success);
+}
+
+.car-status.error {
+  background-color: var(--error);
+}
+
+.car-status.warning {
+  background-color: var(--warning);
+}
+
+.car-status.muted {
+  background-color: var(--textMuted);
+}
+
+/* Car Content */
+.car-content {
+  padding: 16px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.car-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--textPrimary);
+  margin: 0 0 8px 0;
+  line-height: 1.3;
 }
 
 .car-description {
-  color: #555;
+  font-size: 14px;
+  color: var(--textSecondary);
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Car Details */
+.car-details {
   margin-bottom: 16px;
 }
 
-.car-footer {
+.detail-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.detail-item:last-child {
+  margin-bottom: 0;
+}
+
+.detail-label {
+  color: var(--textMuted);
+  font-weight: 500;
+}
+
+.detail-value {
+  color: var(--textPrimary);
+  font-weight: 600;
+}
+
+/* Car Footer */
+.car-footer {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
 }
 
 .car-price {
-  font-weight: bold;
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 12px;
+  text-align: center;
 }
 
-.car-button {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 8px;
+.car-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.car-actions .btn-primary,
+.car-actions .btn-secondary {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
   cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
 }
 
-.car-button:hover {
-  background-color: #0056b3;
+.car-actions .btn-primary {
+  background-color: var(--primary);
+  color: var(--textInverse);
+}
+
+.car-actions .btn-primary:hover {
+  background-color: var(--primaryHover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadowHover);
+}
+
+.car-actions .btn-secondary {
+  background-color: var(--surface);
+  color: var(--textPrimary);
+  border: 1px solid var(--border);
+}
+
+.car-actions .btn-secondary:hover {
+  background-color: var(--surfaceHover);
+  border-color: var(--borderHover);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .car-card {
+    margin: 8px 0;
+  }
+  
+  .car-title {
+    font-size: 16px;
+  }
+  
+  .car-price {
+    font-size: 18px;
+  }
+  
+  .car-actions {
+    flex-direction: column;
+  }
+  
+  .car-actions .btn-primary,
+  .car-actions .btn-secondary {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .car-image-container {
+    height: 160px;
+  }
+  
+  .car-content {
+    padding: 12px;
+  }
+  
+  .car-title {
+    font-size: 15px;
+  }
+  
+  .car-description {
+    font-size: 13px;
+    -webkit-line-clamp: 2;
+  }
+  
+  .detail-item {
+    font-size: 13px;
+  }
+  
+  .car-price {
+    font-size: 16px;
+  }
 }
