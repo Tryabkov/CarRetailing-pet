@@ -39,65 +39,70 @@ const RegisterPage = ({ onBack, onLogin }) => {
   };
 
   return (
-    <div className="register-page">
-      <div className="register-card">
-        <h2 className="register-title">Register</h2>
-        <form className="register-form" onSubmit={handleSubmit}>
-          {error && <div className="error-box">{error}</div>}
+    <div className="register-container">
+      <form className="register-form" onSubmit={handleSubmit}>
+        <h2 className="register-title">Create Account</h2>
+        {error && <div className="error-message">{error}</div>}
 
-          <div className="input-group">
-            <label htmlFor="reg-username">Username</label>
-            <input
-              id="reg-username"
-              type="text"
-              value={username}
-              onChange={e => setUsername(e.target.value)}
-              placeholder="Enter username"
-              required
-            />
-          </div>
+        <div className="form-group">
+          <label className="form-label" htmlFor="reg-username">Username</label>
+          <input
+            id="reg-username"
+            className="form-input"
+            type="text"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+            placeholder="Enter username"
+            required
+          />
+        </div>
 
-          <div className="input-group">
-            <label htmlFor="reg-email">Email</label>
-            <input
-              id="reg-email"
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="Enter email"
-              required
-            />
-          </div>
+        <div className="form-group">
+          <label className="form-label" htmlFor="reg-email">Email</label>
+          <input
+            id="reg-email"
+            className="form-input"
+            type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder="Enter email"
+            required
+          />
+        </div>
 
-          <div className="input-group">
-            <label htmlFor="reg-password">Password</label>
-            <input
-              id="reg-password"
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              placeholder="Enter password"
-              required
-            />
-          </div>
+        <div className="form-group">
+          <label className="form-label" htmlFor="reg-password">Password</label>
+          <input
+            id="reg-password"
+            className="form-input"
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            placeholder="Enter password"
+            required
+          />
+        </div>
 
-          <div className="input-group">
-            <label htmlFor="reg-confirm">Confirm Password</label>
-            <input
-              id="reg-confirm"
-              type="password"
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
-              placeholder="Confirm password"
-              required
-            />
-          </div>
+        <div className="form-group">
+          <label className="form-label" htmlFor="reg-confirm">Confirm Password</label>
+          <input
+            id="reg-confirm"
+            className="form-input"
+            type="password"
+            value={confirmPassword}
+            onChange={e => setConfirmPassword(e.target.value)}
+            placeholder="Confirm password"
+            required
+          />
+        </div>
 
-          <button type="submit" className="btn btn-primary">Register</button>
-          <button type="button" className="btn btn-secondary" onClick={onBack}>Back</button>
-          <button type="button" className="btn btn-redirect-login" onClick={onLogin}>Register</button>
-        </form>
-      </div>
+        <button type="submit" className="register-btn">Register</button>
+        <button type="button" className="back-btn" onClick={onBack}>Back</button>
+        <div className="login-link">
+          Already have an account?{' '}
+          <a href="#" onClick={(e) => { e.preventDefault(); onLogin && onLogin(); }}>Log in</a>
+        </div>
+      </form>
     </div>
   );
 };

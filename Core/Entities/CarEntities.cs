@@ -30,5 +30,6 @@ namespace Core.Entities
     }
     
     public record CreateCarDto(string Mark, string Model, decimal Price, short Year, int Mileage, string Description = null!);
+    public record UpdateCarDto(string? Mark = null, string? Model = null, decimal? Price = null, int? Year = null, int? Mileage = null, string? Description = null);
     public record ReturnCarDto(uint Id, string Mark, string Model, decimal Price, short Year, int Mileage, string Description = null!, ReturnUserDto User = null!);
 }

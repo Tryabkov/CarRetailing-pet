@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Core.Interfaces;
 using AutoMapper;
+using Core.Entities;
 
 namespace Application.Abstractions
 {
@@ -16,25 +17,51 @@ namespace Application.Abstractions
             _mapper = mapper;
         }
         
-        public virtual Task CreateAsync(TEntity entity, CancellationToken ct) => _repository.CreateAsync(entity, ct);
-        public virtual async  Task<TOutEntity?> GetByIdAsync (uint id, CancellationToken ct)
+        public virtual async Task<OperationResult<uint>> CreateAsync(TEntity entity, CancellationToken ct)
         {
-            var car = await _repository.GetByIdAsync(id, ct);
-            return _mapper.Map<TOutEntity>(car);
-        }
-
-        public virtual Task UpdateAsync(TEntity entity, CancellationToken ct) => _repository.UpdateAsync(entity, ct);
-
-        public virtual async Task<bool> DeleteAsync(uint id, CancellationToken ct)
-        {
-            var car = await _repository.GetByIdAsync(id, ct);
-            if (car is null)
+            try
             {
-                return false;
+                uint id = await _repository.CreateAsync(entity, ct);
+                return new OperationResult<uint>(OperationResultType.Success, id);
             }
-
-            await _repository.DeleteAsync(car, ct);
-            return true;
+            catch (Exception e)
+            {
+                return OperationResult<uint>.ServerError("Creation failed");
+            }
+        } 
+        
+        public virtual async  Task<OperationResult<TOutEntity?>> GetByIdAsync (uint id, CancellationToken ct)
+        {
+            try
+            {
+                var entity = await _repository.GetByIdAsync(id, ct);
+                return entity == null ? 
+                    OperationResult<TOutEntity?>.NotFound() : OperationResult<TOutEntity?>.Success(_mapper.Map<TOutEntity>(entity));
+            }
+            catch (Exception e)
+            {
+                return OperationResult<TOutEntity?>.ServerError("Get failed");
+            }
         }
+        
+        public virtual async Task<OperationResult<uint>> DeleteAsync(uint id, uint requestId, CancellationToken ct)
+        {
+            try
+            {
+                var entity = await _repository.GetByIdAsync(id, ct);
+                if (entity is null) return OperationResult<uint>.NotFound();
+
+                if (!VerifyId(requestId, entity, ct)) return OperationResult<uint>.Forbidden();
+                    
+                await _repository.DeleteAsync(entity, ct);
+                return new OperationResult<uint>(OperationResultType.Success, id);
+            }
+            catch (Exception e)
+            {
+                return OperationResult<uint>.ServerError("Delete failed");
+            }
+        }
+
+        protected abstract bool VerifyId(uint requestId, TEntity entity, CancellationToken ct);
     }
 }

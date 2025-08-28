@@ -12,27 +12,45 @@ namespace Application
     {
         public CarService(IRepository<CarEntity> repository, IMapper mapper)
             : base(repository, mapper) { }
-        public async Task<List<ReturnCarDto>> GetByFilterAsync(CarFilters filters, CancellationToken ct) => 
-            await ApplyParameters(_repository.Query(ct), filters)
-                .Include(car => car.User)
-                .ProjectTo<ReturnCarDto>(_mapper.ConfigurationProvider)
-                .ToListAsync(ct);
 
-        public override async Task<ReturnCarDto?> GetByIdAsync(uint id, CancellationToken ct)
+        public async Task<OperationResult<List<ReturnCarDto>>> GetByFilterAsync(CarFilters filters,
+            CancellationToken ct)
         {
-            var car = await _repository.GetByIdAsync(id, ct);
-            if (car is null) { return null; }
-            return new ReturnCarDto
-            (
-                car.Id,
-                car.Mark,
-                car.Model,
-                car.Price,
-                car.Year,
-                car.Mileage,
-                car.Description,
-                new ReturnUserDto(car.User.Name, car.User.PhoneNumber, car.User.Bio)
-            );
+            try
+            {
+                var result = await ApplyParameters(_repository.Query(ct), filters)
+                    .Include(car => car.User)
+                    .ProjectTo<ReturnCarDto>(_mapper.ConfigurationProvider)
+                    .ToListAsync(ct);
+                return OperationResult<List<ReturnCarDto>>.Success(result);
+            }
+            catch (Exception e)
+            {
+                return OperationResult<List<ReturnCarDto>>.ServerError("Get failed");
+            }
+           
+        }
+
+        public async Task<OperationResult<uint>> UpdateAsync(uint id, uint requestId, UpdateCarDto updateCar, CancellationToken ct)
+        {
+            try
+            {
+                var car = await _repository
+                    .Query(ct)
+                    .Where(car => car.Id == id)
+                    .Include(car => car.User)
+                    .FirstOrDefaultAsync(ct);
+                
+                if (car is null) return OperationResult<uint>.Forbidden();
+                if (car.UserId != requestId) return OperationResult<uint>.NotFound();
+                _mapper.Map(updateCar, car);
+                await _repository.UpdateAsync(car, ct);
+                return OperationResult<uint>.Success(requestId);
+            }
+            catch (Exception e)
+            {
+                return OperationResult<uint>.ServerError("Update failed");
+            }
         }
         
         private static IQueryable<CarEntity> ApplyParameters(IQueryable<CarEntity> query, CarFilters filters)
@@ -64,5 +82,8 @@ namespace Application
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize);
         }
+
+        protected override bool VerifyId(uint requestId, CarEntity entity, CancellationToken ct)
+            => entity.User.Id == requestId;
     }
 }

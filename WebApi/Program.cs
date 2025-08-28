@@ -1,4 +1,5 @@
 using Infrastructure;
+using WebApi.Middlewares;
 
 namespace WebApi
 {
@@ -44,7 +45,7 @@ namespace WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseCors("AllowFrontend");
             app.UseHttpsRedirection();
             app.UseAuthentication();

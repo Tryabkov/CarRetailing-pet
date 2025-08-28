@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>b66b0f3f-5f6e-4078-ba2d-d37d2c436279</UserSecretsId>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>

@@ -23,5 +23,8 @@ namespace Application
                 .Query(ct)
                 .Where(u => u.Name == name)
                 .ToListAsync(ct);
+
+        protected override bool VerifyId(uint requestId, UserEntity entity, CancellationToken ct) 
+            => entity.Id == requestId;
     }
 }

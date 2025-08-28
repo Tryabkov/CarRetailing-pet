@@ -31,7 +31,7 @@ namespace Application
 
             var claims = new[]
             {
-                new Claim (type: JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim (type: ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim (type: ClaimTypes.Name, user.Name),
                 // new Claim (type: ClaimTypes.Role, "Authorized")
             };
