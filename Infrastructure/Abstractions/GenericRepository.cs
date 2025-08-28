@@ -9,10 +9,11 @@ namespace Infrastructure.Abstractions
     {
         protected readonly DbSet<TEntity> DbSet = context.Set<TEntity>();
 
-        public virtual async Task CreateAsync(TEntity entity, CancellationToken ct)
+        public virtual async Task<uint> CreateAsync(TEntity entity, CancellationToken ct)
         {
             await DbSet.AddAsync(entity, ct);
             await context.SaveChangesAsync(ct);
+            return entity.Id;
         }
 
         public Task<TEntity?> GetByIdAsync(uint id, CancellationToken ct) =>

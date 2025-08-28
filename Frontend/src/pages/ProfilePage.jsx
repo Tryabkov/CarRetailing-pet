@@ -23,7 +23,7 @@ export default function ProfilePage() {
       name: "Timothy Ryabkov",
       username: "Tryabkov",
       bio: "Mr. Pinochet's helicopter",
-      avatar: "../../avatar.jpg",
+      avatar: "/avatar.jpg",
       email: "timothy@example.com",
       location: "Moscow, Russia",
       joinDate: "2023-01-15"
@@ -80,12 +80,9 @@ export default function ProfilePage() {
         </div>
       </nav>
 
-      <div className="theme-toggle-container">
-        <ThemeToggle />
-      </div>
-
-      <div className="profile-container">
-        <div className="profile-sidebar">
+      <div className="main-content">
+        <div className="profile-container">
+          <div className="profile-sidebar">
           {showEditForm ? (
             <div className="edit-form-wrapper">
               <EditProfileForm
@@ -115,39 +112,40 @@ export default function ProfilePage() {
               </button>
             </div>
           )}
-        </div>
-
-        <div className="listings-section">
-          <div className="section-header">
-            <h2 className="section-title">My Listings</h2>
-            <button className="customize-btn">Customize</button>
           </div>
 
-          <div className="listings-grid">
-            {userListings.map((listing) => (
-              <div key={listing.id} className="listing-card">
-                <div className="listing-image">
-                  <img src={listing.image} alt={listing.title} />
-                  <div className={`listing-status ${listing.status}`}>
-                    {listing.status === 'sold' ? 'Sold' : 'Active'}
+          <div className="listings-section">
+            <div className="section-header">
+              <h2 className="section-title">My Listings</h2>
+              <button className="customize-btn">Customize</button>
+            </div>
+
+            <div className="listings-grid">
+              {userListings.map((listing) => (
+                <div key={listing.id} className="listing-card">
+                  <div className="listing-image">
+                    <img src={listing.image} alt={listing.title} />
+                    <div className={`listing-status ${listing.status}`}>
+                      {listing.status === 'sold' ? 'Sold' : 'Active'}
+                    </div>
                   </div>
-                </div>
 
-                <div className="listing-content">
-                  <h3 className="listing-title">{listing.title}</h3>
-                  {listing.description && (
-                    <p className="listing-description">{listing.description}</p>
-                  )}
+                  <div className="listing-content">
+                    <h3 className="listing-title">{listing.title}</h3>
+                    {listing.description && (
+                      <p className="listing-description">{listing.description}</p>
+                    )}
 
-                  <div className="listing-meta">
-                    <span className="listing-price">{formatPrice(listing.price)}</span>
-                    <span className="listing-date">{formatDate(listing.createdAt)}</span>
+                    <div className="listing-meta">
+                      <span className="listing-price">{formatPrice(listing.price)}</span>
+                      <span className="listing-date">{formatDate(listing.createdAt)}</span>
+                    </div>
                   </div>
-                </div>
 
-                <button className="listing-menu-btn">⋮</button>
-              </div>
-            ))}
+                  <button className="listing-menu-btn">⋮</button>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

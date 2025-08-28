@@ -11,7 +11,7 @@ export default function CreatePage() {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createCar({ mark, price, model, description });
+    await createCar({ mark, price, model, description, year, mileage });
     navigate('/');
   }
 
@@ -19,6 +19,8 @@ export default function CreatePage() {
   const [model, setModel] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
+  const [year, setYear] = useState('');
+  const [mileage, setMileage] = useState('');
 
   return (
     <div className="create-page">
@@ -84,6 +86,36 @@ export default function CreatePage() {
                 onChange={e => setPrice(e.target.value)}
                 placeholder="Enter price"
                 className="form-input"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="car-year" className="form-label">Year</label>
+              <input
+                id="car-year"
+                type="number"
+                value={year}
+                onChange={e => setYear(e.target.value)}
+                placeholder="Enter manufacturing year"
+                className="form-input"
+                min="1900"
+                max="2035"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="car-mileage" className="form-label">Mileage (km)</label>
+              <input
+                id="car-mileage"
+                type="number"
+                value={mileage}
+                onChange={e => setMileage(e.target.value)}
+                placeholder="Enter mileage"
+                className="form-input"
+                min="0"
+                step="1"
                 required
               />
             </div>

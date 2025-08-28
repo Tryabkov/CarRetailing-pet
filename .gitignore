@@ -364,3 +364,5 @@ cert/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/.env
+/Frontend/.env

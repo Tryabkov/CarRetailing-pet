@@ -19,35 +19,51 @@ public class CarsController(ICarService carService) : ControllerBase
             ? id
             : throw new UnauthorizedAccessException("Invalid user ID claim");
 
-        await carService.CreateAsync(new CarEntity(userId, car), ct);
-        return Ok();
+        var result = await carService.CreateAsync(new CarEntity(userId, car), ct);
+        
+        if (result.Type == OperationResultType.Success) return Ok(result.Value);
+        return BadRequest(result.ErrorMessage);
     }
-
-    [HttpGet]
-    public async Task<IActionResult> GetById([FromQuery]uint id, CancellationToken ct)
+    
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetById(uint id, CancellationToken ct)
     {
-        var car = await carService.GetByIdAsync(id, ct);
-        if (car is null) return NotFound();
-        return Ok(car);
+        var result = await carService.GetByIdAsync(id, ct);
+        if (result.Type == OperationResultType.Success) return Ok(result.Value);
+        if (result.Type == OperationResultType.NotFound) return NotFound(id);
+        return BadRequest(result.ErrorMessage);
     }
 
     [HttpGet("all")]
     public async Task<IActionResult> GetCars([FromQuery] CarFilters parameters, CancellationToken ct)
     {
-        return Ok(await carService.GetByFilterAsync(parameters, ct));
+        var result = await carService.GetByFilterAsync(parameters, ct);
+        
+        if (result.Type == OperationResultType.Success) return Ok(result.Value);
+        return BadRequest(result.ErrorMessage);
     }
-
-    [HttpPatch]
-    public async Task<IActionResult> Patch([FromBody] CarEntity car, CancellationToken ct)
+    
+    [Authorize]
+    [HttpPatch("{id:int}")]
+    [Consumes("application/json")]
+    public async Task<IActionResult> Patch(uint id, [FromBody] UpdateCarDto car, CancellationToken ct)
     {
-        await carService.UpdateAsync(car, ct);
-        return Ok();
+        var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (!uint.TryParse(userIdStr, out var userId)) return Unauthorized();
+        var result = await carService.UpdateAsync(id, userId, car, ct);
+        
+        if (result.Type == OperationResultType.Success) return Ok(result.Value);
+        return BadRequest(result.ErrorMessage);
     }
-
-    [HttpDelete]
-    public async Task<IActionResult> Delete([FromQuery] uint id, CancellationToken ct)
+    
+    [Authorize]
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete(uint id, CancellationToken ct)
     {
-        await carService.DeleteAsync(id, ct);
+        var userIdStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (!uint.TryParse(userIdStr, out var userId)) return Unauthorized();
+        
+        await carService.DeleteAsync(id, userId, ct);
         return Ok();
     }
 

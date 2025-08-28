@@ -37,49 +37,46 @@ const LoginPage = ({ onBack, onRegister }) => {
     }
   };
   return (
-    <div className="login-page">
-      {errorState ? <div className="error-box">{errorState}</div> : null}
-      <div className="login-card">
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleSubmit}>
         <h2 className="login-title">Log In</h2>
-        <form className="login-form" onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              autoComplete="email"
-              type="text"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              placeholder="Enter password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Enter
-          </button>
-          <button type="button" className="btn btn-secondary" onClick={onBack}>
-            Back
-          </button>
-          <button
-            type="button"
-            className="btn btn-redirect-signin"
-            onClick={onRegister}
-          >
-            Register
-          </button>
-        </form>
-      </div>
+        {errorState ? <div className="error-message">{errorState}</div> : null}
+
+        <div className="form-group">
+          <label className="form-label" htmlFor="email">Email</label>
+          <input
+            id="email"
+            className="form-input"
+            autoComplete="email"
+            type="email"
+            placeholder="Enter email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label className="form-label" htmlFor="password">Password</label>
+          <input
+            id="password"
+            className="form-input"
+            type="password"
+            placeholder="Enter password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        <button type="submit" className="login-btn">Log In</button>
+        <button type="button" className="back-btn" onClick={onBack}>Back</button>
+
+        <div className="register-link">
+          Don't have an account?{' '}
+          <a href="#" onClick={(e) => { e.preventDefault(); onRegister && onRegister(); }}>Register</a>
+        </div>
+      </form>
     </div>
   );
 };

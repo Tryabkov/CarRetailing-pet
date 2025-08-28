@@ -7,6 +7,10 @@
   padding: 24px;
 }
 
+.main-content {
+  padding-top: 80px;
+}
+
 .profile-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -19,7 +23,7 @@
 /* Left Column - User Profile */
 .profile-sidebar {
   position: sticky;
-  top: 24px;
+  top: 104px;
 }
 
 .profile-card {
@@ -38,13 +42,7 @@
 }
 
 /* Edit Form Wrapper */
-.edit-form-wrapper {
-  background-color: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: var(--shadow);
-}
+
 
 .avatar-container {
   position: relative;

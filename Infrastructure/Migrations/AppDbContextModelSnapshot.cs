@@ -21,7 +21,7 @@ namespace Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Core.Entities.CarEntity", b =>
+            modelBuilder.Entity("Core.Entities.CarEntities", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -103,7 +103,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Core.Entities.CarEntity", b =>
+            modelBuilder.Entity("Core.Entities.CarEntities", b =>
                 {
                     b.HasOne("Core.Entities.UserEntity", "User")
                         .WithMany("Cars")
