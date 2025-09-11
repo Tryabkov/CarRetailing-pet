@@ -1,9 +1,8 @@
-﻿namespace Core.Entities
+﻿namespace Core.Entities;
+
+public enum LoginResultType
 {
-    public enum LoginResultType
-    {
-        Success,
-        UserNotFound,
-        WrongPassword
-    }
+    Success,
+    UserNotFound,
+    WrongPassword
 }

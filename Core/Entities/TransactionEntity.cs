@@ -1,7 +1,5 @@
-﻿namespace Core.Entities
-{
-    internal class TransactionEntity
-    {
+﻿namespace Core.Entities;
 
-    }
+internal class TransactionEntity
+{
 }

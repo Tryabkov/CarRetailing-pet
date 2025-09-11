@@ -7,9 +7,9 @@ services:
       dockerfile: WebApi/Dockerfile
     restart: on-failure
     ports:
-    - "5026:5026"
-    - "7138:7138"
-    - "5001:5001"
+      - "5026:5026"
+      - "7138:7138"
+      - "5001:5001"
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_ALLOWEDHOSTS: "*"
@@ -50,9 +50,7 @@ services:
       - 8.8.4.4
     networks:
       - carnet
-    depends_on:
-      - webapi  
-
+  
   postgres:
     image: postgres:16
     restart: always
@@ -64,12 +62,65 @@ services:
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
       ConnectionStrings__DefaultConnection: "${DEFAULT_CONNECTION}"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ./data/postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
       - carnet
     
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.2
+    restart: always
+    hostname: zookeeper
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=zookeeper:2888:3888;2181
+    volumes:
+      - ./data/zookeeper:/var/lib/zookeeper/data
+    ports:
+      - "2181:2181"
+    networks:
+      - carnet
+
+  
+  kafka:
+    image: confluentinc/cp-kafka:7.3.2
+    hostname: kafka
+    container_name: kafka
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092, PLAINTEXT_HOST://localhost:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+    volumes:
+      - ./data/kafka:/var/lib/kafka/data
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    depends_on:
+      - zookeeper
+    networks:
+      - carnet
+    
+  kafdrop:
+    image: obsidiandynamics/kafdrop:latest
+    container_name: kafdrop
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BROKERCONNECT: kafka:9092
+      JVM_OPTS: "-Xms32M -Xmx64M"
+    ports:
+      - "9000:9000"
+    networks:
+      - carnet
+
+
 #  nginx:
 #    image: nginx:latest
 #    volumes:
@@ -81,8 +132,6 @@ services:
 #      - frontend
 #      - webapi
 
-volumes:
-  pgdata:
 
 networks:
   carnet:

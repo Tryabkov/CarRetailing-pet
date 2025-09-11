@@ -3,7 +3,6 @@ using Core.Entities;
 
 namespace Application.Mappings;
 
-
 public class CarProfile : Profile
 {
     public CarProfile()

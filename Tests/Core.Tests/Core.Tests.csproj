@@ -18,4 +18,8 @@
         <Using Include="Xunit"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="UnitTest1.cs" />
+    </ItemGroup>
+
 </Project>

@@ -1,10 +1,14 @@
+using Application.Interfaces;
+using Core.Entities;
+using Infrastructure.Messaging.Kafka;
+
 namespace WebApi.Middlewares;
 
 public class ExceptionMiddleware
 {
-    private readonly RequestDelegate _next;
     private readonly ILogger<ExceptionMiddleware> _logger;
-    
+    private readonly RequestDelegate _next;
+
     public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
         _next = next;
@@ -20,7 +24,7 @@ public class ExceptionMiddleware
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unhandled server error occurred.");
-            
+
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 

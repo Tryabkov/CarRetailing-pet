@@ -1,7 +1,6 @@
-﻿namespace Core.Interfaces
+﻿namespace Core.Interfaces;
+
+public interface IDbEntity
 {
-    public interface IDbEntity
-    {
-        uint Id { get; }
-    }
+    uint Id { get; }
 }

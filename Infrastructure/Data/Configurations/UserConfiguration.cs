@@ -2,17 +2,16 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Data.Configurations
+namespace Infrastructure.Data.Configurations;
+
+internal class UserConfiguration : IEntityTypeConfiguration<UserEntity>
 {
-    internal class UserConfiguration : IEntityTypeConfiguration<UserEntity>
+    public void Configure(EntityTypeBuilder<UserEntity> builder)
     {
-       public void Configure(EntityTypeBuilder<UserEntity> builder)
-        {
-            builder.HasKey(u => u.Id);
-            builder.HasAlternateKey(u => u.Email);
-            builder
-                .HasMany(u => u.Cars)
-                .WithOne(c => c.User);
-        }
+        builder.HasKey(u => u.Id);
+        builder.HasAlternateKey(u => u.Email);
+        builder
+            .HasMany(u => u.Cars)
+            .WithOne(c => c.User);
     }
 }
