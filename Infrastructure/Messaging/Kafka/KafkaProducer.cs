@@ -18,7 +18,9 @@ public class KafkaProducer<TMessage> : IEventBus<TMessage>
             BootstrapServers = options.BootstrapServers,
             Acks = options.Acks,
             EnableIdempotence = options.Idempotence,
-            MessageTimeoutMs = 5000
+            MessageTimeoutMs = 5000,
+            ReconnectBackoffMs = 5000,
+            ReconnectBackoffMaxMs = 60000
         };
 
         _producer = new ProducerBuilder<string, TMessage>(config)
@@ -31,10 +33,25 @@ public class KafkaProducer<TMessage> : IEventBus<TMessage>
     
     public async Task PublishAsync(TMessage message, CancellationToken ct)
     {
-        await _producer.ProduceAsync(_topic, new  Message<string, TMessage>
+        try
         {
-            Value = message
-        }, ct);
+            await _producer.ProduceAsync(_topic, new  Message<string, TMessage>
+            {
+                Value = message
+            }, ct);
+        }
+        catch (ProduceException<string, TMessage> e)
+        {
+            // Логируем ошибку, но не мешаем бизнес-логике
+            Console.WriteLine($"[Kafka] Delivery failed: {e.Error.Reason}");
+        }
+        catch (Exception ex)
+        {
+            // На всякий случай ловим всё остальное
+            Console.WriteLine($"[Kafka] Unexpected error: {ex.Message}");
+        }
+
+        
     }
 
     public void Dispose()

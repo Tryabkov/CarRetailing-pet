@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   webapi:
+    container_name: webapi
     build:
       context: .
       dockerfile: WebApi/Dockerfile
@@ -32,6 +33,7 @@ services:
       - carnet
 
   frontend:
+    container_name: frontend
     build:
       context: ./Frontend
       dockerfile: Dockerfile
@@ -54,6 +56,7 @@ services:
   postgres:
     image: postgres:16
     restart: always
+    container_name: postgres
     env_file:
       - .env
     environment:

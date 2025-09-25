@@ -43,7 +43,6 @@ public class CarService : CrudService<CarEntity, ReturnCarDto>, ICarService
                 .ProjectTo<ReturnCarDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(ct);
             await _filtersEventBus.PublishAsync(new SearchEvent("search", filters), ct);
-            // OnFilterSearch?.Invoke(this, filters);
             return OperationResult<List<ReturnCarDto>>.Success(result);
         }
         catch (Exception e)
