@@ -108,7 +108,7 @@ export default function HomePage() {
           {isLoggedIn ? (
             <>
               <button className="nav-btn" onClick={() => navigate('/profile')}>Profile</button>
-              <button className="nav-btn" onClick={() => navigate('/create')}>Add Listing</button>
+              <button className="nav-btn" onClick={() => navigate('/register')}>Add Listing</button>
               <button className="nav-btn" onClick={handleLogout}>Logout</button>
             </>
           ) : (

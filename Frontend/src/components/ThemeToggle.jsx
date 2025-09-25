@@ -8,7 +8,7 @@ export default function ThemeToggle() {
   return (
     <button 
       className="theme-toggle" 
-      onClick={toggleTheme}
+      // onClick={toggleTheme}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} theme`}
       title={`Switch to ${isDark ? 'light' : 'dark'} theme`}
     >
