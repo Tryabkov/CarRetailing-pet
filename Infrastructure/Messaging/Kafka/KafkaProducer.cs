@@ -42,12 +42,10 @@ public class KafkaProducer<TMessage> : IEventBus<TMessage>
         }
         catch (ProduceException<string, TMessage> e)
         {
-            // Логируем ошибку, но не мешаем бизнес-логике
             Console.WriteLine($"[Kafka] Delivery failed: {e.Error.Reason}");
         }
         catch (Exception ex)
         {
-            // На всякий случай ловим всё остальное
             Console.WriteLine($"[Kafka] Unexpected error: {ex.Message}");
         }
 
