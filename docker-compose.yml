@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   webapi:
     container_name: webapi
@@ -23,6 +21,8 @@ services:
       ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
       ASPNETCORE_Kestrel__Certificates__Default__Password: "${PFX_PASSWORD}"
       ConnectionStrings__DefaultConnection: "${DEFAULT_CONNECTION}"
+      Kafka__CarEvent__BootstrapServers: "kafka:9092"
+      Kafka__SearchEvent__BootstrapServers: "kafka:9092"
     env_file:
       - .env
     depends_on:
@@ -65,7 +65,7 @@ services:
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
       ConnectionStrings__DefaultConnection: "${DEFAULT_CONNECTION}"
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
@@ -81,7 +81,7 @@ services:
       ZOO_MY_ID: 1
       ZOO_SERVERS: server.1=zookeeper:2888:3888;2181
     volumes:
-      - ./data/zookeeper:/var/lib/zookeeper/data
+      - zookeeper:/var/lib/zookeeper/data
     ports:
       - "2181:2181"
     networks:
@@ -96,12 +96,12 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092, PLAINTEXT_HOST://localhost:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
     volumes:
-      - ./data/kafka:/var/lib/kafka/data
+      - kafka:/var/lib/kafka/data
     ports:
       - "9092:9092"
       - "29092:29092"
@@ -139,3 +139,8 @@ services:
 networks:
   carnet:
     driver: bridge
+    
+volumes:
+  zookeeper:
+  kafka:
+  postgres:
