@@ -2,14 +2,19 @@
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
+        <PreserveCompilationContext>true</PreserveCompilationContext>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
+        <UserSecretsId>1398a2c8-e48f-4350-89d9-e8bef77c762c</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="coverlet.collector" Version="6.0.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.8"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.8"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0"/>
+        <PackageReference Include="Testcontainers.PostgreSql" Version="4.6.0"/>
         <PackageReference Include="xunit" Version="2.9.2"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2"/>
     </ItemGroup>
@@ -19,7 +24,19 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="UnitTest1.cs" />
+        <ProjectReference Include="..\..\src\Application\Application.csproj" />
+        <ProjectReference Include="..\..\src\Core\Core.csproj" />
+        <ProjectReference Include="..\..\src\Infrastructure\Infrastructure.csproj" />
+        <ProjectReference Include="..\..\src\WebApi\WebApi.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="xunit.abstractions">
+        <HintPath>..\..\..\..\..\..\..\..\.nuget\packages\xunit.abstractions\2.0.3\lib\netstandard2.0\xunit.abstractions.dll</HintPath>
+      </Reference>
+      <Reference Include="xunit.core">
+        <HintPath>..\..\..\..\..\..\..\..\.nuget\packages\xunit.extensibility.core\2.9.2\lib\netstandard1.1\xunit.core.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>
