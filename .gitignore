@@ -366,3 +366,6 @@ cert/
 FodyWeavers.xsd
 /.env
 /Frontend/.env
+/Infrastructure/postgres/.env
+/services/carApi/.env
+/services/Frontend/.env
