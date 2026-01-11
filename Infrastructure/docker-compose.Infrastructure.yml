@@ -1,0 +1,99 @@
+services:
+  postgres:
+    image: postgres:16
+    restart: on-failure
+    container_name: postgres
+    env_file:
+      - postgres/.env
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - carnet
+  
+  
+  kafka:
+    image: confluentinc/cp-kafka:7.3.2
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: false
+    volumes:
+      - kafka:/var/lib/kafka/data
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    networks:
+      - carnet
+
+  kafka-init:
+    image: confluentinc/cp-kafka:7.3.2
+    container_name: kafka-init
+    depends_on:
+      - kafka
+    command: >
+      bash -c "
+        kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic event.search --partitions 3 --replication-factor 1 &&
+        kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic event.car --partitions 3 --replication-factor 1
+      "
+    networks:
+      - carnet
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop:latest
+    container_name: kafdrop
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BROKERCONNECT: kafka:9092
+      JVM_OPTS: "-Xms32M -Xmx64M"
+    command: [ "--server.port=9005 --management.server.port=9005" ]
+    ports:
+      - "9005:9000"
+    networks:
+      - carnet
+  
+  #  nginx:
+  #    image: nginx:latest
+  #    volumes:
+  #      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+  #    ports:
+  #      - "80:80"
+  #      
+  #    depends_on:
+  #      - frontend
+  #      - webapi
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.2
+    restart: unless-stopped
+    hostname: zookeeper
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=zookeeper:2888:3888;2181
+    volumes:
+      - zookeeper:/var/lib/zookeeper/data
+    networks:
+      - carnet
+    ports:
+      - "2181:2181"
+
+volumes:
+  postgres:
+  kafka:
+  zookeeper:
+
+networks:
+  carnet:
+    driver: brige
+    external: true

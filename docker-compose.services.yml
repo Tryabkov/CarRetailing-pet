@@ -1,0 +1,50 @@
+services:
+  webapi:
+    container_name: webapi
+    build:
+      context: services/carApi/ 
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "5026:5026"
+      - "7138:7138" 
+      - "5001:5001"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_ALLOWEDHOSTS: "*"
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/aspnetapp.pfx
+      Kafka__CarEvent__BootstrapServers: "kafka:9092"
+      Kafka__SearchEvent__BootstrapServers: "kafka:9092"
+    env_file:
+      - services/carApi/.env
+    volumes:
+      - ./services/carApi/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+    networks:
+      - carnet
+
+  frontend:
+    container_name: frontend
+    build:
+      context: services/Frontend
+      dockerfile: Dockerfile
+    working_dir: /app
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./services/Frontend:/app
+      - /app/node_modules
+    env_file:
+      - services/Frontend/.env
+    environment:
+      - NODE_ENV=production
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    networks:
+      - carnet
+
+networks:
+  carnet:
+    driver: bridge
+    external: true
+    

@@ -1,0 +1,217 @@
+.create-page {
+  min-height: 100vh;
+  background-color: var(--background);
+  color: var(--textPrimary);
+}
+
+.create-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  padding-top: 100px; /* Учитываем навигацию */
+}
+
+.create-form {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: var(--shadowLarge);
+  transition: all 0.3s ease;
+}
+
+.create-form:hover {
+  box-shadow: var(--shadowLarge);
+  transform: translateY(-2px);
+}
+
+.create-title {
+  text-align: center;
+  color: var(--textPrimary);
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--textPrimary);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: var(--surface);
+  color: var(--textPrimary);
+  transition: all 0.2s ease;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--borderFocus);
+  background-color: var(--card);
+  box-shadow: 0 0 0 3px var(--overlayLight);
+}
+
+.form-input::placeholder {
+  color: var(--textMuted);
+}
+
+.create-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--gradientPrimary);
+  color: var(--textInverse);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 12px;
+}
+
+.create-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadowHover);
+}
+
+.create-btn:active {
+  transform: translateY(0);
+}
+
+.back-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--surface);
+  color: var(--textPrimary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  background-color: var(--surfaceHover);
+  border-color: var(--borderHover);
+}
+
+/* Стили для навигации */
+.nav-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
+
+.nav-logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--textPrimary);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.nav-link {
+  color: var(--textSecondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--textPrimary);
+}
+
+.nav-link.active {
+  color: var(--primary);
+}
+
+/* Адаптивный дизайн */
+@media (max-width: 768px) {
+  .create-container {
+    padding: 16px;
+    padding-top: 100px;
+  }
+  
+  .create-form {
+    padding: 24px;
+    margin: 16px;
+  }
+  
+  .create-title {
+    font-size: 20px;
+  }
+  
+  .form-input {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+  
+  .create-btn {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .nav-header {
+    padding: 12px 16px;
+  }
+  
+  .nav-links {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .create-form {
+    padding: 20px;
+  }
+  
+  .nav-header {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+  }
+  
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

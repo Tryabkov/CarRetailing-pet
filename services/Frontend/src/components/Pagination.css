@@ -1,0 +1,326 @@
+.pagination-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin: 40px 0;
+  padding: 20px;
+  background: var(--card);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.pagination-info {
+  text-align: center;
+}
+
+.items-info {
+  color: var(--textSecondary);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination-pages {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--textPrimary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.pagination-btn:hover:not(.disabled) {
+  background: var(--surfaceHover);
+  border-color: var(--borderHover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadowHover);
+}
+
+.pagination-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+}
+
+.pagination-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+.pagination-btn.disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.pagination-btn-prev,
+.pagination-btn-next {
+  min-width: 44px;
+}
+
+.pagination-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.pagination-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  color: var(--textMuted);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.pagination-jump {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.jump-label {
+  color: var(--textSecondary);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.jump-input {
+  width: 60px;
+  height: 32px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--textPrimary);
+  font-size: 14px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.jump-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.jump-input::-webkit-inner-spin-button,
+.jump-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.jump-input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.jump-total {
+  color: var(--textMuted);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Адаптивный дизайн */
+@media (max-width: 768px) {
+  .pagination-container {
+    padding: 16px;
+    gap: 16px;
+  }
+  
+  .pagination-controls {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+  }
+  
+  .pagination-btn {
+    min-width: 36px;
+    height: 36px;
+    font-size: 13px;
+  }
+  
+  .pagination-btn-prev,
+  .pagination-btn-next {
+    min-width: 40px;
+  }
+  
+  .pagination-icon {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .pagination-jump {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+  
+  .jump-input {
+    width: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagination-container {
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  .pagination-controls {
+    gap: 4px;
+  }
+  
+  .pagination-btn {
+    min-width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+  
+  .pagination-btn-prev,
+  .pagination-btn-next {
+    min-width: 36px;
+  }
+  
+  .pagination-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .pagination-dots {
+    min-width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+  
+  .items-info {
+    font-size: 13px;
+  }
+  
+  .jump-label,
+  .jump-total {
+    font-size: 13px;
+  }
+  
+  .jump-input {
+    width: 60px;
+    height: 28px;
+    font-size: 13px;
+  }
+}
+
+/* Темная тема */
+.theme-dark .pagination-container {
+  background: rgba(33, 38, 45, 0.95);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.theme-dark .pagination-btn {
+  background: rgba(22, 27, 34, 0.9);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #e2e8f0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.theme-dark .pagination-btn:hover:not(.disabled) {
+  background: rgba(33, 38, 45, 0.95);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #f8fafc;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.theme-dark .pagination-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  box-shadow: 0 4px 16px rgba(96, 165, 250, 0.4);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.theme-dark .pagination-dots {
+  color: #94a3b8;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.theme-dark .pagination-jump {
+  background: rgba(22, 27, 34, 0.9);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.theme-dark .jump-label,
+.theme-dark .jump-total {
+  color: #cbd5e1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.theme-dark .jump-input {
+  background: rgba(33, 38, 45, 0.95);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #f8fafc;
+}
+
+.theme-dark .jump-input:focus {
+  background: rgba(33, 38, 45, 1);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+}
+
+.theme-dark .items-info {
+  color: #cbd5e1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Улучшенные тени для светлой темы */
+.pagination-container {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.pagination-btn {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-btn:hover:not(.disabled) {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.pagination-btn.active {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.items-info {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.jump-label,
+.jump-total {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}

@@ -1,0 +1,67 @@
+.theme-toggle {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--card);
+  color: var(--textSecondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow);
+}
+
+.theme-toggle:hover {
+  border-color: var(--borderHover);
+  background: var(--cardHover);
+  color: var(--textPrimary);
+  transform: scale(1.05);
+  box-shadow: var(--shadowHover);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover .theme-toggle-icon {
+  transform: rotate(15deg);
+}
+
+.theme-toggle svg {
+  transition: all 0.3s ease;
+}
+
+/* Анимация при переключении */
+.theme-toggle:active svg {
+  transform: scale(0.8);
+}
+
+/* Стили для фокуса */
+.theme-toggle:focus {
+  outline: none;
+  border-color: var(--borderFocus);
+  box-shadow: 0 0 0 3px var(--overlayLight);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .theme-toggle svg {
+    width: 18px;
+    height: 18px;
+  }
+}
